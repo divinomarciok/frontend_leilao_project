@@ -38,14 +38,14 @@ const AddProduct = () => {
         setSuccessMessage("Falha ao cadastrar o produto. Tente novamente.");
       }
     } catch (error) {
-        console.error("Erro ao criar produto",error)
+      console.error("Erro ao criar produto", error);
       setSuccessMessage("Erro ao conectar ao servidor. Tente novamente.");
     }
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 border border-gray-300 rounded-lg shadow-lg mt-8">
-      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Cadastrar Produto</h2>
+    <div className="max-w-lg mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-md mt-8">
+      <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Cadastrar Produto</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="nomeProd" className="block text-sm font-medium text-gray-700 mb-2">
@@ -102,7 +102,7 @@ const AddProduct = () => {
         {successMessage && <p className="text-center text-green-600 mb-4">{successMessage}</p>}
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
+          className="w-full bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-800 transition duration-200"
         >
           Cadastrar Produto
         </button>
