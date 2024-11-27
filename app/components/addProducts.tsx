@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Cookies from "js-cookie";
 
 const AddProduct = () => {
   const [nomeProd, setNomeProd] = useState("");
@@ -8,6 +9,7 @@ const AddProduct = () => {
   const [tamanhoProd, setTamanhoProd] = useState("");
   const [quantidadeProd, setQuantidadeProd] = useState(0);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,13 +22,23 @@ const AddProduct = () => {
     };
 
     try {
-      const response = await fetch("/api/products", {
+      const token = Cookies.get("authToken"); // Obtém o token do cookie
+
+      if (!token) {
+        throw new Error("Usuário não autenticado");
+      }
+
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${token}`);
+      myHeaders.append("Content-Type", "application/json");
+
+      const requestOptions = {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: myHeaders,
         body: JSON.stringify(newProduct),
-      });
+      };
+
+      const response = await fetch("http://localhost:8000/createproduct", requestOptions);
 
       if (response.ok) {
         setSuccessMessage("Produto cadastrado com sucesso!");
@@ -34,12 +46,15 @@ const AddProduct = () => {
         setCategoriaProd("");
         setTamanhoProd("");
         setQuantidadeProd(0);
+        setErrorMessage(null);
       } else {
-        setSuccessMessage("Falha ao cadastrar o produto. Tente novamente.");
+        setErrorMessage("Falha ao cadastrar o produto. Tente novamente.");
+        setSuccessMessage(null);
       }
     } catch (error) {
       console.error("Erro ao criar produto", error);
-      setSuccessMessage("Erro ao conectar ao servidor. Tente novamente.");
+      setErrorMessage("Erro ao conectar ao servidor. Tente novamente.");
+      setSuccessMessage(null);
     }
   };
 
@@ -100,6 +115,7 @@ const AddProduct = () => {
           />
         </div>
         {successMessage && <p className="text-center text-green-600 mb-4">{successMessage}</p>}
+        {errorMessage && <p className="text-center text-red-600 mb-4">{errorMessage}</p>}
         <button
           type="submit"
           className="w-full bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-800 transition duration-200"
