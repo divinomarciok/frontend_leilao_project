@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-
+import { useRouter } from "next/navigation";
 type ProductDetail = {
   empresa: string;
   preco: number;
@@ -10,9 +10,18 @@ type ProductDetail = {
 };
 
 const ProductDetails = ({ productDetails }: { productDetails: ProductDetail[] }) => {
+  const router = useRouter();
+
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Detalhes do Produto</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-3xl font-bold text-gray-800">Detalhes do Produto</h2>
+        <button className="bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-800 transition duration-200"
+         onClick={() => router.push("/products/addPrice")}>
+          
+          Cadastrar Preço
+        </button>
+      </div>
       <ul className="space-y-4">
         {productDetails.map((detail, index) => (
           <li

@@ -19,13 +19,13 @@ const ProductsList = ({ products }: { products?: Product[] }) => {
         <div className="flex flex-col space-y-4 justify-center">
           <button
             className="bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-800 transition duration-200"
-            onClick={() => router.push("/products/add")}
+            onClick={() => router.push("/products/addProduct")}
           >
             Cadastrar Produto
           </button>
           <button
             className="bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-800 transition duration-200"
-            onClick={() => router.push("/companies/add")}
+            onClick={() => router.push("/products/addEnterprise")}
           >
             Cadastrar Empresa
           </button>
