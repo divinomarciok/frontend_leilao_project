@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 
 type Product = {
   nome: string;
@@ -10,15 +11,20 @@ type Product = {
 };
 
 const ProductsList = ({ products }: { products: Product[] }) => {
+  const router = useRouter();
+
   return (
     <div className="max-w-4xl mx-auto p-6 relative">
       <div className="flex gap-4 mb-6">
         <div className="flex flex-col space-y-4">
-          <button className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200">
-            Cadastrar Empresa
+          <button
+            className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
+            onClick={() => router.push("/products/add")}
+          >
+            Cadastrar Produto
           </button>
           <button className="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-200">
-            Cadastrar Produto
+            Cadastrar Empresa
           </button>
         </div>
         <div className="flex-1">

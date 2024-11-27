@@ -27,6 +27,16 @@ const productDetailsData = [
     preco: 395.00,
     tamanho: "42",
   },
+  {
+    empresa: "Calce 2 Bem",
+    preco: 395.00,
+    tamanho: "42",
+  },
+  {
+    empresa: "Calce 3 Bem",
+    preco: 395.00,
+    tamanho: "42",
+  },
 ];
 
 interface ProductDetailsPageProps {
