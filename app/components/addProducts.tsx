@@ -72,7 +72,7 @@ const AddProduct = () => {
             value={nomeProd}
             onChange={(e) => setNomeProd(e.target.value)}
             required
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-500 text-gray-900"
           />
         </div>
         <div className="mb-4">
@@ -85,7 +85,7 @@ const AddProduct = () => {
             value={categoriaProd}
             onChange={(e) => setCategoriaProd(e.target.value)}
             required
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-500 text-gray-900"
           />
         </div>
         <div className="mb-4">
@@ -98,7 +98,7 @@ const AddProduct = () => {
             value={tamanhoProd}
             onChange={(e) => setTamanhoProd(e.target.value)}
             required
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-500 text-gray-900"
           />
         </div>
         <div className="mb-4">
@@ -111,7 +111,7 @@ const AddProduct = () => {
             value={quantidadeProd}
             onChange={(e) => setQuantidadeProd(Number(e.target.value))}
             required
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-500 text-gray-900"
           />
         </div>
         {successMessage && <p className="text-center text-green-600 mb-4">{successMessage}</p>}
