@@ -33,6 +33,18 @@ const productsData = [
     tamanho: "340L",
     marca: "Brastemp",
     categoria: "Eletrodomésticos"
+  },
+  {
+    nome: "Geladeira Frost Free",
+    tamanho: "340L",
+    marca: "Brastemp",
+    categoria: "Eletrodomésticos"
+  },
+  {
+    nome: "Geladeira Frost Free",
+    tamanho: "340L",
+    marca: "Brastemp",
+    categoria: "Eletrodomésticos"
   }
 ];
 
