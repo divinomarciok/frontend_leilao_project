@@ -1,54 +1,57 @@
-// app/products/page.tsx
 "use client";
 
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 import ProductsList from "../components/products";
 
-const productsData = [
-  {
-    nome: "Camiseta Básica",
-    tamanho: "M",
-    marca: "Zara",
-    categoria: "Vestuário"
-  },
-  {
-    nome: "Notebook Pro",
-    tamanho: "15.6 polegadas",
-    marca: "Dell",
-    categoria: "Eletrônicos"
-  },
-  {
-    nome: "Tênis Running",
-    tamanho: "42",
-    marca: "Nike",
-    categoria: "Calçados"
-  },
-  {
-    nome: "Café Torrado e Moído",
-    tamanho: "500g",
-    marca: "Melitta",
-    categoria: "Alimentos"
-  },
-  {
-    nome: "Geladeira Frost Free",
-    tamanho: "340L",
-    marca: "Brastemp",
-    categoria: "Eletrodomésticos"
-  },
-  {
-    nome: "Geladeira Frost Free",
-    tamanho: "340L",
-    marca: "Brastemp",
-    categoria: "Eletrodomésticos"
-  },
-  {
-    nome: "Geladeira Frost Free",
-    tamanho: "340L",
-    marca: "Brastemp",
-    categoria: "Eletrodomésticos"
-  }
-];
-
 export default function ProductsPage() {
+  const [productsData, setProductsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const token = Cookies.get("authToken"); // Obtém o token do cookie
+
+        if (!token) {
+          throw new Error("Usuário não autenticado");
+        }
+
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        const requestOptions = {
+          method: "GET",
+          headers: myHeaders,
+        };
+
+        const response = await fetch("http://localhost:8000/getAllProducts", requestOptions);
+        if (response.ok) {
+          const data = await response.json();
+          setProductsData(data);
+        } else {
+          setError("Erro ao buscar produtos.");
+        }
+      } catch (error) {
+        console.error("Erro ao buscar produtos: ", error);
+        setError("Erro ao conectar ao servidor.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return <div className="min-h-screen bg-gray-100 py-10 text-center">Carregando produtos...</div>;
+  }
+
+  if (error) {
+    return <div className="min-h-screen bg-gray-100 py-10 text-center text-red-600">{error}</div>;
+  }
+
   return (
     <main className="min-h-screen bg-gray-100 py-10">
       <ProductsList products={productsData} />
