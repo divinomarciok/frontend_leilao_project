@@ -3,22 +3,32 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+
 type ProductDetail = {
   empresa: string;
   preco: number;
   tamanho: string;
 };
 
-const ProductDetails = ({ productDetails }: { productDetails: ProductDetail[] }) => {
+type ProductDetailsProps = {
+  productDetails: ProductDetail[];
+  productId: string;
+  productName: string;
+};
+
+const ProductDetails = ({ productDetails, productId, productName }: ProductDetailsProps) => {
   const router = useRouter();
 
   return (
     <div className="max-w-3xl mx-auto p-6">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold text-gray-800">Detalhes do Produto</h2>
-        <button className="bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-800 transition duration-200"
-         onClick={() => router.push("/products/addPrice")}>
-          
+        <button
+          className="bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-800 transition duration-200"
+          onClick={() =>
+            router.push(`/products/addPrice?id=${productId}&nome=${encodeURIComponent(productName)}`)
+          }
+        >
           Cadastrar Preço
         </button>
       </div>

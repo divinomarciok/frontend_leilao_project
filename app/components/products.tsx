@@ -4,6 +4,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 
 type Product = {
+  id: number;
   nome: string;
   tamanho: string;
   marca: string;
@@ -37,10 +38,13 @@ const ProductsList = ({ products }: { products?: Product[] }) => {
               products.map((product, index) => (
                 <a
                   key={index}
-                  href={`/products/${index}`}
-                  className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 hover:bg-gray-200"
+                  href={`/products/${product.id}?nome=${encodeURIComponent(product.nome)}`}
+                     className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 hover:bg-gray-200"
                 >
                   <h3 className="text-xl font-bold mb-2 text-gray-900">{product.nome}</h3>
+                  <p className="text-sm text-gray-700 mb-1">
+                    <strong>ID:</strong> {product.id}
+                  </p>
                   <p className="text-sm text-gray-700 mb-1">
                     <strong>Tamanho:</strong> {product.tamanho}
                   </p>

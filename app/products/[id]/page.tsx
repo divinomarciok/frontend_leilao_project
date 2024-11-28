@@ -1,58 +1,45 @@
 // app/products/[id]/page.tsx
+"use client";
+
+import React from "react";
 import ProductDetails from "../../components/productDetails";
+import { useSearchParams } from "next/navigation";
 
-const productDetailsData = [
-  {
-    empresa: "Loja Esportiva XYZ",
-    preco: 399.99,
-    tamanho: "42",
-  },
-  {
-    empresa: "Esporte Max",
-    preco: 410.50,
-    tamanho: "42",
-  },
-  {
-    empresa: "Super Tênis Online",
-    preco: 389.90,
-    tamanho: "42",
-  },
-  {
-    empresa: "Mega Calçados",
-    preco: 420.00,
-    tamanho: "42",
-  },
-  {
-    empresa: "Calce Bem",
-    preco: 395.00,
-    tamanho: "42",
-  },
-  {
-    empresa: "Calce 2 Bem",
-    preco: 395.00,
-    tamanho: "42",
-  },
-  {
-    empresa: "Calce 3 Bem",
-    preco: 395.00,
-    tamanho: "42",
-  },
-];
+export default function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const [id, setId] = React.useState<string | null>(null);
+  const [nomeProduto, setNomeProduto] = React.useState<string | null>(null);
+  const searchParams = useSearchParams();
 
-interface ProductDetailsPageProps {
-  params: {
-    id: string;
-  };
-}
+  React.useEffect(() => {
+    const fetchParams = async () => {
+      const resolvedParams = await params;
+      setId(resolvedParams.id);
 
-export default function ProductDetailsPage({ params }: ProductDetailsPageProps) {
-  const { id } = params;
+      // Obter o nome do produto dos parâmetros da URL
+      const nome = searchParams.get("nome");
+      if (nome) {
+        setNomeProduto(nome);
+      }
+    };
+    fetchParams();
+  }, [params, searchParams]);
 
-  // Aqui você pode usar o `id` para buscar dados específicos, se necessário
+  if (!id || !nomeProduto) {
+    return <div>Carregando...</div>;
+  }
+
+  const productDetailsData = [
+    {
+      empresa: "Loja Esportiva XYZ",
+      preco: 399.99,
+      tamanho: "42",
+    },
+    // demais empresas...
+  ];
 
   return (
     <main className="min-h-screen bg-gray-100 py-10">
-      <ProductDetails productDetails={productDetailsData} />
+      <ProductDetails productDetails={productDetailsData} productId={id} productName={nomeProduto} />
     </main>
   );
 }
