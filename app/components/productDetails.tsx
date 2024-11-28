@@ -22,7 +22,7 @@ const ProductDetails = ({ productDetails, productId, productName }: ProductDetai
   return (
     <div className="max-w-3xl mx-auto p-6">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold text-gray-800">Detalhes do Produto</h2>
+        <h2 className="text-3xl font-bold text-gray-800">{productName}</h2>
         <button
           className="bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-800 transition duration-200"
           onClick={() =>
