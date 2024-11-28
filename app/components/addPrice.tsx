@@ -1,4 +1,3 @@
-// app/price/add/page.tsx
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -14,7 +13,7 @@ const AddPrice = () => {
   const [price, setPrice] = useState(0);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [enterprises, setEnterprises] = useState<{ id: number; name: string }[]>([]);
+  const [enterprises, setEnterprises] = useState<{ id: number; nomeEmp: string }[]>([]);
 
   useEffect(() => {
     const fetchEnterprises = async () => {
@@ -35,9 +34,10 @@ const AddPrice = () => {
 
         if (enterpriseResponse.ok) {
           const enterprisesData = await enterpriseResponse.json();
-          setEnterprises(enterprisesData);
+          console.log("Dados das empresas recebidos da API:", enterprisesData);
+          setEnterprises(enterprisesData); // Alimenta o estado `enterprises` com os dados da API
         } else {
-          throw new Error("Erro ao buscar empresas");
+          throw new Error(`Erro ao buscar empresas: ${enterpriseResponse.statusText}`);
         }
       } catch (error) {
         console.error("Erro ao buscar empresas", error);
@@ -46,7 +46,7 @@ const AddPrice = () => {
     };
 
     fetchEnterprises();
-  }, []);
+  }, []); // Executa o fetch apenas uma vez, ao montar o componente
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,7 +108,7 @@ const AddPrice = () => {
           <input
             type="text"
             id="productId"
-            value={`${productName} (ID: ${productId})`}
+            value={`${productName || "Nome não encontrado"} (ID: ${productId || "ID não encontrado"})`}
             readOnly
             className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed text-gray-900"
           />
@@ -127,11 +127,15 @@ const AddPrice = () => {
             <option value="" disabled>
               Selecione uma empresa
             </option>
-            {enterprises.map((enterprise) => (
-              <option key={enterprise.id} value={enterprise.id}>
-                {enterprise.name}
-              </option>
-            ))}
+            {enterprises.length > 0 ? (
+              enterprises.map((enterprise) => (
+                <option key={enterprise.id} value={enterprise.id}>
+                  {enterprise.nomeEmp}
+                </option>
+              ))
+            ) : (
+              <option disabled>Nenhuma empresa disponível</option>
+            )}
           </select>
         </div>
         <div className="mb-4">
