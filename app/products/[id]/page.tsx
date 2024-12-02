@@ -1,45 +1,104 @@
 // app/products/[id]/page.tsx
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProductDetails from "../../components/productDetails";
 import { useSearchParams } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
-  const [id, setId] = React.useState<string | null>(null);
-  const [nomeProduto, setNomeProduto] = React.useState<string | null>(null);
+  const [id, setId] = useState<string | null>(null);
+  const [nomeProduto, setNomeProduto] = useState<string | null>(null);
+  const [productDetailsData, setProductDetailsData] = useState<
+    { empresa: string; preco: number; tamanho: string }[]
+  >([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   const searchParams = useSearchParams();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchParams = async () => {
-      const resolvedParams = await params;
-      setId(resolvedParams.id);
+      try {
+        const resolvedParams = await params;
+        setId(resolvedParams.id);
 
-      // Obter o nome do produto dos parâmetros da URL
-      const nome = searchParams.get("nome");
-      if (nome) {
-        setNomeProduto(nome);
+        // Obter o nome do produto dos parâmetros da URL
+        const nome = searchParams.get("nome");
+        if (nome) {
+          setNomeProduto(nome);
+        }
+      } catch (err) {
+        console.error("error ",err)
+        setError("Erro ao obter os parâmetros.");
       }
     };
+
     fetchParams();
   }, [params, searchParams]);
 
-  if (!id || !nomeProduto) {
-    return <div>Carregando...</div>;
+  useEffect(() => {
+    if (id) {
+      // Somente buscar dados da API quando o `id` estiver disponível
+      const fetchProductDetails = async () => {
+        try {
+          const token = Cookies.get("authToken"); // Obtém o token do cookie
+          if (!token) {
+            throw new Error("Token de autenticação não encontrado.");
+          }
+
+          const myHeaders = new Headers();
+          myHeaders.append("Authorization", `Bearer ${token}`);
+
+          const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow" as RequestRedirect,
+          };
+
+          const response = await fetch(
+            `http://localhost:8000/products/${id}/enterprises`,
+            requestOptions
+          );
+
+          if (!response.ok) {
+            throw new Error("Erro ao buscar detalhes do produto");
+          }
+
+          console.log(response.ok);
+          const data = await response.json();
+          setProductDetailsData(data);
+        } catch (err) {
+          console.error("Erro ao buscar detalhes do produto: ", err);
+          setError("Erro ao buscar detalhes do produto.");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchProductDetails();
+    }
+  }, [id]);
+
+  if (loading) {
+    return <div className="min-h-screen bg-gray-100 py-10 text-center">Carregando...</div>;
   }
 
-  const productDetailsData = [
-    {
-      empresa: "Loja Esportiva XYZ",
-      preco: 399.99,
-      tamanho: "42",
-    },
-    // demais empresas...
-  ];
+  if (error) {
+    return <div className="min-h-screen bg-gray-100 py-10 text-center text-red-600">{error}</div>;
+  }
+
+  if (!id || !nomeProduto) {
+    return <div className="min-h-screen bg-gray-100 py-10 text-center">Carregando...</div>;
+  }
 
   return (
     <main className="min-h-screen bg-gray-100 py-10">
-      <ProductDetails productDetails={productDetailsData} productId={id} productName={nomeProduto} />
+      <ProductDetails
+        productDetails={productDetailsData}
+        productId={id}
+        productName={nomeProduto}
+      />
     </main>
   );
 }
