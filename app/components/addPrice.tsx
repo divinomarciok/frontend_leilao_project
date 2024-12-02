@@ -27,7 +27,7 @@ const AddPriceContent = () => {
         const myHeaders = new Headers();
         myHeaders.append("Authorization", `Bearer ${token}`);
 
-        const enterpriseResponse = await fetch("http://localhost:8000/getEnterprises", {
+        const enterpriseResponse = await fetch("https://leilao-project-deploy.onrender.com/getEnterprises", {
           method: "GET",
           headers: myHeaders,
         });
@@ -79,7 +79,7 @@ const AddPriceContent = () => {
         body: JSON.stringify(newPrice),
       };
 
-      const response = await fetch("http://localhost:8000/addenterpriseproduct", requestOptions);
+      const response = await fetch("https://leilao-project-deploy.onrender.com/addenterpriseproduct", requestOptions);
 
       if (response.ok) {
         setSuccessMessage("Preço cadastrado com sucesso!");

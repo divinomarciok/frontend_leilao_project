@@ -32,7 +32,7 @@ const Login = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/login", requestOptions);
+      const response = await fetch("https://leilao-project-deploy.onrender.com/login", requestOptions);
 
       if (response.ok) {
         const data = await response.json();
