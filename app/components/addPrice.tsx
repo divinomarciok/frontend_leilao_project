@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Cookies from "js-cookie";
 import { useSearchParams } from "next/navigation";
 
-const AddPrice = () => {
+const AddPriceContent = () => {
   const searchParams = useSearchParams();
   const productId = searchParams.get("id");
   const productName = searchParams.get("nome");
@@ -161,6 +161,14 @@ const AddPrice = () => {
         </button>
       </form>
     </div>
+  );
+};
+
+const AddPrice = () => {
+  return (
+    <Suspense fallback={<div>Carregando...</div>}>
+      <AddPriceContent />
+    </Suspense>
   );
 };
 
