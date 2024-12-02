@@ -34,7 +34,7 @@ const AddEnterprise = () => {
         body: JSON.stringify(newEnterprise),
       };
 
-      const response = await fetch("http://localhost:8000/createenterprise", requestOptions);
+      const response = await fetch("https://leilao-project-deploy.onrender.com/createenterprise", requestOptions);
 
       if (response.ok) {
         setSuccessMessage("Empresa cadastrada com sucesso!");

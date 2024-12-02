@@ -38,7 +38,7 @@ const AddProduct = () => {
         body: JSON.stringify(newProduct),
       };
 
-      const response = await fetch("http://localhost:8000/createproduct", requestOptions);
+      const response = await fetch("https://leilao-project-deploy.onrender.com/createproduct", requestOptions);
 
       if (response.ok) {
         setSuccessMessage("Produto cadastrado com sucesso!");

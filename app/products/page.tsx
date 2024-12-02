@@ -26,7 +26,7 @@ export default function ProductsPage() {
           headers: myHeaders,
         };
 
-        const response = await fetch("http://localhost:8000/getAllProducts", requestOptions);
+        const response = await fetch("https://leilao-project-deploy.onrender.com/getAllProducts", requestOptions);
         if (response.ok) {
           const data = await response.json();
           setProductsData(data);

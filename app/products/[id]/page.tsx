@@ -57,7 +57,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
           };
 
           const response = await fetch(
-            `http://localhost:8000/products/${id}/enterprises`,
+            `https://leilao-project-deploy.onrender.com/products/${id}/enterprises`,
             requestOptions
           );
 
